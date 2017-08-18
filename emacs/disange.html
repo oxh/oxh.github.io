@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-08-18 Fri 15:06 -->
+<!-- 2017-08-18 Fri 15:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -228,13 +228,199 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org425a350">1. 需要的工具</a></li>
+<li><a href="#orge1e49d7">2. 设置 org 工程</a>
+<ul>
+<li><a href="#org6a0119a">2.1. 工程结构</a></li>
+<li><a href="#orgadbddc4">2.2. 工程设置</a></li>
+<li><a href="#orge71389f">2.3. 其它设置</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <p>
-这是404 页面。
+本文介绍如何使用 Org mode 来搭建本站(wiki)。本文适合喜欢折腾的同学们，
+如果你已经是懒人一个，那么使用wordpress搭建博客更加方便。而如果同时你
+喜欢Emacs+orgmode的写作方式，
+<a href="https://github.com/punchagan/org2blog">org2blog</a> 插件也能与
+wordpress很好的结合。
+</p>
+
+<p>
+那么下面开始正题吧。
+</p>
+
+<div id="outline-container-org425a350" class="outline-2">
+<h2 id="org425a350"><span class="section-number-2">1</span> 需要的工具</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+“工欲善其事，必先利其器”，这里我们使用的就是Emacs+org的写作方式，
+再利用它直接生成HTML，最后再将其发布在网上（或是用于本地浏览）。
+</p>
+
+<p>
+以下是你需要的工具：
+</p>
+<ol class="org-ol">
+<li>Emacs ── “万恶”之源，当然是必备的。</li>
+<li>Org mode ─ ─Emacs的强力插件，据说有不少人使用Emacs完全就是为了用
+它。需要注意的是，请使用最新的版本，而不是Emacs自带的版本。</li>
+<li>htmlize ──Emacs插件，用于将文本转换成HTML，支持代码高亮。</li>
+<li>熟悉Emacs的操作，会用Org mode，能看懂emacs的配置。</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge1e49d7" class="outline-2">
+<h2 id="orge1e49d7"><span class="section-number-2">2</span> 设置 org 工程</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+本文不会面面俱到地说明如何从零开始，只是提供一个思路，讲解一些关键点，
+重要的还是多看多折腾。
 </p>
 </div>
+
+<div id="outline-container-org6a0119a" class="outline-3">
+<h3 id="org6a0119a"><span class="section-number-3">2.1</span> 工程结构</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+本文中，我们首先创建两个目录 <code>~/Dropbox/org/orgwiki</code> 用来存放源文件；
+以及 <code>~/Dropbox/org/orgwiki_html</code> 用来存放生成的HTML文件。目录结构
+示例如下：
+</p>
+
+<pre class="example">
+/home/zhangjinzhou/Dropbox/org/orgwiki/
+|-- assets
+|   |-- css
+|   |   |-- style.css
+|   `-- js
+|       `-- jquery-1.7.1.min.js
+|-- files
+|   `-- org-projects.el
+|-- images
+|   `-- test.jpg
+|-- index.org
+|-- postamble.html
+|-- preamble.html
+|-- publish_wiki.sh
+`-- sitemap.org
+</pre>
+
+<p>
+其中， <code>assets</code> 是用来存放网站模板所需要的文件， <code>files</code> 和
+<code>images</code> 视你自己的需要而定，是用来存放文章中用得着的文件。
+</p>
+
+<p>
+在<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>中，作者详细介绍了如何使用Org mode 来建立工程以及模板的基本
+使用方法，请详细阅读。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgadbddc4" class="outline-3">
+<h3 id="orgadbddc4"><span class="section-number-3">2.2</span> 工程设置</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+由于<sup><a id="fnr.1.100" class="footref" href="#fn.1">1</a></sup>中的设置只能对输出的一些选项做基本的配置，不能完全满足楼
+主的需求，于是，根据<a href="http://orgmode.org/worg/worg-setup.html">worg
+官网</a> 的设置<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>做了一些调整。
+</p>
+
+<p>
+完整的设置请参见 <a href="files/org-projects.el">files/org-projects.el</a>, 本wiki的源码可以在
+<a href="https://github.com/lotabout/orgwiki">Github</a> 上得到。
+</p>
+
+<p>
+设置包括两个方面，第一个方面是控制Emacs如何输出HTML，这需要在
+<code>.emacs</code> 里设置，也就是<a href="files/org-projects.el">files/org-projects.el</a> 里的这些内容。
+另一方面是控制输出的HTML如何显示，这也是之前提到的“模板”。
+</p>
+
+<p>
+本wiki的模板主要包括4个文件，需要注意的是，这个模板是与Emacs的设置
+对应的。
+</p>
+<pre class="example">
+/home/zhangjinzhou/Dropbox/org/orgwiki/
+|-- assets
+|   |-- css
+|   |   |-- style.css
+|   `-- js
+|       `-- jquery-1.7.1.min.js
+|-- postamble.html
+`-- preamble.html
+</pre>
+<p>
+其中， <code>preamble.html</code> 中包含了导航相关的信息。 <code>postamble.html</code> 中
+添加了诸如评论等的一些功能。如果你需要使用我的模板，请注意替换这两
+个文件中的相应内容。
+</p>
+
+<p>
+其中， <code>org-projects.el</code> 的设置有两种用法（for 小白们），第一种，将
+它放在某个目录下，如： <code>~/.emacs.d/elisp</code> 下。再在 <code>.emacs</code> 中加入
+下面代码：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-list <span style="color: #a020f0;">'</span><span style="color: #008b8b;">load-path</span> <span style="color: #8b2252;">"~/.emacs.d/elisp"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #a020f0;">require</span> <span style="color: #a020f0;">'</span><span style="color: #008b8b;">org-projects</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+<p>
+或者将里面的所有内容全部复制到 <code>.emacs</code> 文件中。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge71389f" class="outline-3">
+<h3 id="orge71389f"><span class="section-number-3">2.3</span> 其它设置</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+由于我的模板里有一个功能，是显示文章对应的原始orgmode文件。对于
+orgmode 里的链接，原本的样式会丢失，是因为在orgmode 显示时，
+<code>[[link]]</code> 变成了 <code>link</code> ，因此输出时丢失了外面的括号。因此在
+<code>.emacs</code> 加入下面代码：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #b22222;">; </span><span style="color: #b22222;">Enable literal links</span>
+<span style="color: #707183;">(</span><span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">turn-on-literal-links</span> <span style="color: #7388d6;">()</span>
+  <span style="color: #8b2252;">"enable literal links."</span>
+  <span style="color: #7388d6;">(</span><span style="color: #a020f0;">interactive</span><span style="color: #7388d6;">)</span>
+  <span style="color: #7388d6;">(</span>org-remove-from-invisibility-spec <span style="color: #a020f0;">'</span><span style="color: #909183;">(</span>org-link<span style="color: #909183;">)</span><span style="color: #7388d6;">)</span>
+  <span style="color: #7388d6;">(</span>org-restart-font-lock<span style="color: #7388d6;">)</span><span style="color: #707183;">)</span>
+
+<span style="color: #707183;">(</span>add-hook <span style="color: #a020f0;">'</span><span style="color: #008b8b;">org-mode-hook</span> <span style="color: #a020f0;">'</span><span style="color: #008b8b;">turn-on-literal-links</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<a href="http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">Publishing Org-mode files to HTML</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+<a href="http://orgmode.org/worg/sources/emacs.el">Worg's emacs.el</a>
+</p></div></div>
+
+
+</div>
+</div></div>
 <div id="postamble" class="status">
 <p class="author">Author: oxh</p>
-<p class="date">Created: 2017-08-18 Fri 15:06</p>
+<p class="date">Created: 2017-08-18 Fri 15:17</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
